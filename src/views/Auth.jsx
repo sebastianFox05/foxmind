@@ -44,13 +44,13 @@ export default function Auth({ initialMode = 'login' }) {
         return;
       }
       if (view === 'forgot') {
-        const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/?recuperar=1` });
+        const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}?recuperar=1` });
         if (error) throw error;
         setMessage({ text: 'Te enviamos un enlace para crear una contraseña nueva.', tone: 'ok' });
         return;
       }
       const { data, error } = isSignUp
-        ? await client.auth.signUp({ email, password, options: { data: { name: name.trim() }, emailRedirectTo: window.location.origin } })
+        ? await client.auth.signUp({ email, password, options: { data: { name: name.trim() }, emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL}` } })
         : await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
       if (isSignUp && !data.session) setMessage({ text: 'Cuenta creada. Revisa tu correo para confirmarla y luego entra.', tone: 'ok' });

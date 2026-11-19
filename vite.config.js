@@ -17,6 +17,8 @@ function netlifyCsp() {
 }
 
 export default defineConfig({
+  /* '/' en Netlify; el workflow de GitHub Pages compila con BASE_PATH=/foxmind/ */
+  base: process.env.BASE_PATH || '/',
   plugins: [
     react(),
     VitePWA({

@@ -3,8 +3,9 @@
  * https://github.com/yuhonas/free-exercise-db). Pasos y consejos redactados en español para FoxMind.
  * `aliases` permite reconocer los ejercicios que escribes en tus rutinas ("Press banca", "Dominadas"…).
  */
+import { asset } from './utils.js';
 
-const IMG = (slug) => [`/img/ejercicios/${slug}-0.jpg`, `/img/ejercicios/${slug}-1.jpg`];
+const IMG = (slug) => [asset(`img/ejercicios/${slug}-0.jpg`), asset(`img/ejercicios/${slug}-1.jpg`)];
 
 export const MUSCLE_GROUPS = [
   { value: 'todos', label: 'Todos' },

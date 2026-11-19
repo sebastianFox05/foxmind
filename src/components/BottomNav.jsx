@@ -6,6 +6,7 @@
  */
 import { NavLink } from 'react-router-dom';
 import Icon from './Icon.jsx';
+import { asset } from '../lib/utils.js';
 import { useUi } from '../ui/UiContext.jsx';
 
 const LEFT = [
@@ -36,7 +37,7 @@ export default function BottomNav() {
   return (
     <nav className="bottom-nav" aria-label="Secciones">
       <a className="bottom-nav__brand" href="#/">
-        <img src="/icon-192.png" alt="" width="192" height="192" />
+        <img src={asset('icon-192.png')} alt="" width="192" height="192" />
         <span>FoxMind</span>
       </a>
       <ul className="bottom-nav__list">

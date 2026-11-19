@@ -68,6 +68,15 @@ Publicado en **https://foxmind.netlify.app** (sitio `foxmind`, id 80402d39-2751-
 Para publicar se pide a Claude (operación `deploy-site` del conector de Netlify) y se ejecuta el comando `npx @netlify/mcp …`
 que devuelve, desde esta carpeta. Después, añade `https://foxmind.netlify.app` a las Redirect URLs de Supabase.
 
+## GitHub Pages
+
+Código en **https://github.com/sebastianFox05/foxmind** y copia publicada en **https://sebastianfox05.github.io/foxmind/**.
+`.github/workflows/pages.yml` compila y publica en cada push a `main` (Settings → Pages → Source: **GitHub Actions**).
+La app vive en la subcarpeta `/foxmind/`, por eso se compila con `BASE_PATH=/foxmind/`; las rutas a `public/`
+pasan por `asset()` (`src/lib/utils.js`). Netlify sigue compilando con la base `/`.
+Para que el registro y la recuperación de contraseña vuelvan a Pages, añade `https://sebastianfox05.github.io/foxmind/**`
+a las Redirect URLs de Supabase. GitHub Pages no envía la Content-Security-Policy de `netlify.toml`.
+
 ## Estructura
 
 ```txt

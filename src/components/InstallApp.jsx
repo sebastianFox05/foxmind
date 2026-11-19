@@ -1,6 +1,7 @@
 /* Tarjeta "Instala FoxMind": boton de instalar (Chrome, Edge, Android) o pasos para iPhone/iPad */
 import { useEffect, useState } from 'react';
 import Icon from './Icon.jsx';
+import { asset } from '../lib/utils.js';
 import { installState, promptInstall, subscribeInstall } from '../lib/install.js';
 import { useUi } from '../ui/UiContext.jsx';
 
@@ -33,7 +34,7 @@ export default function InstallApp() {
 
   return (
     <section className="glass glass--padded install-card" aria-labelledby="install-title">
-      <img className="install-card__icon" src="/icon-192.png" alt="" width="192" height="192" />
+      <img className="install-card__icon" src={asset('icon-192.png')} alt="" width="192" height="192" />
       <div className="install-card__text">
         <h2 className="section-header__title" id="install-title">Instala FoxMind</h2>
         {body}

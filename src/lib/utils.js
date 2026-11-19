@@ -59,3 +59,6 @@ export function downloadFile(filename, content, type = 'application/json') {
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+/* Ruta a un archivo de public/ respetando la base del despliegue ('/' en Netlify, '/foxmind/' en GitHub Pages) */
+export const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
