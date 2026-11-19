@@ -1,0 +1,23 @@
+{
+  "name": "foxmind",
+  "private": true,
+  "version": "1.0.0",
+  "description": "FoxMind: gestion personal de trabajo, gym, running, lectura, habitos y retos (React + Supabase)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5180 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 5181 --strictPort"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "7.18.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "5.2.0",
+    "vite": "7.3.7",
+    "vite-plugin-pwa": "1.3.0"
+  }
+}
