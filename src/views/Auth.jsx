@@ -10,8 +10,7 @@ import Icon from '../components/Icon.jsx';
 import Logo from '../components/Logo.jsx';
 import Photo from '../components/Photo.jsx';
 import { MONTH_PHOTOS } from '../lib/photos.js';
-
-const MIN_PASSWORD = 8;
+import { MIN_PASSWORD, authErrorMessage, passwordProblem } from '../lib/authErrors.js';
 
 export default function Auth({ initialMode = 'login' }) {
   const { client, mode, startLocalSession, saveSettings } = useData();
@@ -32,8 +31,10 @@ export default function Auth({ initialMode = 'login' }) {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    if (isSignUp && password !== repeat) {
-      setMessage({ text: 'Las contraseñas no coinciden.', tone: 'error' });
+    const cleanEmail = email.trim();
+    const problem = isCloud && isSignUp ? passwordProblem(password, repeat) : '';
+    if (problem) {
+      setMessage({ text: problem, tone: 'error' });
       return;
     }
     setIsBusy(true);
@@ -45,18 +46,18 @@ export default function Auth({ initialMode = 'login' }) {
         return;
       }
       if (view === 'forgot') {
-        const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}?recuperar=1` });
+        const { error } = await client.auth.resetPasswordForEmail(cleanEmail, { redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}?recuperar=1` });
         if (error) throw error;
-        setMessage({ text: 'Te enviamos un enlace para crear una contraseña nueva.', tone: 'ok' });
+        setMessage({ text: 'Si hay una cuenta con ese correo, te enviamos un enlace para crear una contraseña nueva. Revisa también la carpeta de spam.', tone: 'ok' });
         return;
       }
       const { data, error } = isSignUp
-        ? await client.auth.signUp({ email, password, options: { data: { name: name.trim() }, emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL}` } })
-        : await client.auth.signInWithPassword({ email, password });
+        ? await client.auth.signUp({ email: cleanEmail, password, options: { data: { name: name.trim() }, emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL}` } })
+        : await client.auth.signInWithPassword({ email: cleanEmail, password });
       if (error) throw error;
-      if (isSignUp && !data.session) setMessage({ text: 'Cuenta creada. Revisa tu correo para confirmarla y luego entra.', tone: 'ok' });
+      if (isSignUp && !data.session) setMessage({ text: 'Listo. Te enviamos un enlace para confirmar tu correo; ábrelo y después entra. Revisa también la carpeta de spam.', tone: 'ok' });
     } catch (reason) {
-      setMessage({ text: reason.message || 'No se pudo completar. Inténtalo de nuevo.', tone: 'error' });
+      setMessage({ text: authErrorMessage(reason), tone: 'error' });
     } finally {
       setIsBusy(false);
     }
@@ -88,28 +89,28 @@ export default function Auth({ initialMode = 'login' }) {
             <label className="auth-field" htmlFor="auth-name">
               <Icon name="user" />
               <span className="visually-hidden">Nombre</span>
-              <input id="auth-name" autoComplete="name" placeholder="Tu nombre" value={name} onChange={(event) => setName(event.target.value)} required={isSignUp} />
+              <input id="auth-name" autoComplete="name" placeholder="Tu nombre" maxLength={60} value={name} onChange={(event) => setName(event.target.value)} required={isSignUp} />
             </label>
           )}
           {isCloud && (
             <label className="auth-field" htmlFor="auth-email">
               <Icon name="note" />
               <span className="visually-hidden">Correo</span>
-              <input id="auth-email" type="email" autoComplete="email" placeholder="Correo" value={email} onChange={(event) => setEmail(event.target.value)} required />
+              <input id="auth-email" type="email" autoComplete="email" placeholder="Correo" maxLength={254} value={email} onChange={(event) => setEmail(event.target.value)} required />
             </label>
           )}
           {isCloud && view !== 'forgot' && (
             <label className="auth-field" htmlFor="auth-password">
               <Icon name="settings" />
               <span className="visually-hidden">Contraseña</span>
-              <input id="auth-password" type="password" autoComplete={isSignUp ? 'new-password' : 'current-password'} minLength={MIN_PASSWORD} placeholder={`Contraseña (mín. ${MIN_PASSWORD})`} value={password} onChange={(event) => setPassword(event.target.value)} required />
+              <input id="auth-password" type="password" autoComplete={isSignUp ? 'new-password' : 'current-password'} minLength={isSignUp ? MIN_PASSWORD : undefined} maxLength={72} placeholder={isSignUp ? `Contraseña (mín. ${MIN_PASSWORD}, letras y números)` : 'Contraseña'} value={password} onChange={(event) => setPassword(event.target.value)} required />
             </label>
           )}
           {isCloud && isSignUp && (
             <label className="auth-field" htmlFor="auth-repeat">
               <Icon name="check" />
               <span className="visually-hidden">Repite la contraseña</span>
-              <input id="auth-repeat" type="password" autoComplete="new-password" minLength={MIN_PASSWORD} placeholder="Repite la contraseña" value={repeat} onChange={(event) => setRepeat(event.target.value)} required />
+              <input id="auth-repeat" type="password" autoComplete="new-password" minLength={MIN_PASSWORD} maxLength={72} placeholder="Repite la contraseña" value={repeat} onChange={(event) => setRepeat(event.target.value)} required />
             </label>
           )}
           {message.text && <p className={`auth__message auth__message--${message.tone}`} role="alert">{message.text}</p>}

@@ -9,8 +9,7 @@ import Icon from '../components/Icon.jsx';
 import Logo from '../components/Logo.jsx';
 import Photo from '../components/Photo.jsx';
 import { MONTH_PHOTOS } from '../lib/photos.js';
-
-const MIN_PASSWORD = 8;
+import { MIN_PASSWORD, authErrorMessage, passwordProblem } from '../lib/authErrors.js';
 
 export default function NewPassword() {
   const { client, session, isAuthReady, finishRecovery, signOut } = useData();
@@ -22,8 +21,9 @@ export default function NewPassword() {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    if (password !== repeat) {
-      setMessage({ text: 'Las contraseñas no coinciden.', tone: 'error' });
+    const problem = passwordProblem(password, repeat);
+    if (problem) {
+      setMessage({ text: problem, tone: 'error' });
       return;
     }
     setIsBusy(true);
@@ -31,7 +31,7 @@ export default function NewPassword() {
     const { error } = await client.auth.updateUser({ password });
     setIsBusy(false);
     if (error) {
-      setMessage({ text: error.message || 'No se pudo guardar la contraseña.', tone: 'error' });
+      setMessage({ text: authErrorMessage(error), tone: 'error' });
       return;
     }
     setMessage({ text: 'Contraseña actualizada. Entrando…', tone: 'ok' });
@@ -68,12 +68,12 @@ export default function NewPassword() {
             <label className="auth-field" htmlFor="new-password">
               <Icon name="settings" />
               <span className="visually-hidden">Nueva contraseña</span>
-              <input id="new-password" type="password" autoComplete="new-password" minLength={MIN_PASSWORD} placeholder={`Nueva contraseña (mín. ${MIN_PASSWORD})`} value={password} onChange={(event) => setPassword(event.target.value)} required />
+              <input id="new-password" type="password" autoComplete="new-password" minLength={MIN_PASSWORD} maxLength={72} placeholder={`Nueva contraseña (mín. ${MIN_PASSWORD}, letras y números)`} value={password} onChange={(event) => setPassword(event.target.value)} required />
             </label>
             <label className="auth-field" htmlFor="new-password-repeat">
               <Icon name="check" />
               <span className="visually-hidden">Repite la contraseña</span>
-              <input id="new-password-repeat" type="password" autoComplete="new-password" minLength={MIN_PASSWORD} placeholder="Repite la contraseña" value={repeat} onChange={(event) => setRepeat(event.target.value)} required />
+              <input id="new-password-repeat" type="password" autoComplete="new-password" minLength={MIN_PASSWORD} maxLength={72} placeholder="Repite la contraseña" value={repeat} onChange={(event) => setRepeat(event.target.value)} required />
             </label>
             {message.text && <p className={`auth__message auth__message--${message.tone}`} role="alert">{message.text}</p>}
             <button type="submit" className="welcome__cta auth__submit" disabled={isBusy}>{isBusy ? 'Guardando…' : 'Guardar contraseña'}</button>
