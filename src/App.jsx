@@ -9,6 +9,7 @@ import { useData } from './session/DataContext.jsx';
 import { useUi } from './ui/UiContext.jsx';
 import Aurora from './components/Aurora.jsx';
 import TopBar from './components/TopBar.jsx';
+import { LogoMark } from './components/Logo.jsx';
 import BottomNav from './components/BottomNav.jsx';
 import CommandPalette from './ui/CommandPalette.jsx';
 import Today from './views/Today.jsx';
@@ -124,7 +125,7 @@ export default function App() {
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           ) : (
-            <p className="loading" role="status">Cargando tu día…</p>
+            <p className="loading" role="status"><LogoMark className="loading__mark" />Cargando tu día…</p>
           )}
         </main>
       </div>

@@ -9,6 +9,7 @@ import { useData } from '../session/DataContext.jsx';
 import { useUi } from '../ui/UiContext.jsx';
 import { insights } from '../lib/stats.js';
 import Avatar from './Avatar.jsx';
+import Logo, { LogoMark } from './Logo.jsx';
 import InsightList from './InsightList.jsx';
 
 const MENU = [
@@ -21,9 +22,10 @@ const MENU = [
   { to: '/perfil', label: 'Perfil y revisión semanal', icon: 'user' }
 ];
 
-function MenuList({ onNavigate }) {
+function MenuList({ onNavigate, mode }) {
   return (
     <nav aria-label="Todas las secciones">
+      <Logo isOnDark={mode === 'dark'} className="menu-list__logo" alt="" />
       <ul className="menu-list">
         {MENU.map((item) => (
           <li key={item.to}>
@@ -50,7 +52,7 @@ export default function TopBar({ context, variant = 'default' }) {
     render: (close) => <InsightList items={alerts} onNavigate={close} />
   });
 
-  const menuHandler = () => openModal({ title: 'Menú', render: (close) => <MenuList onNavigate={() => close()} /> });
+  const menuHandler = () => openModal({ title: 'Menú', render: (close) => <MenuList onNavigate={() => close()} mode={mode} /> });
 
   const modeButton = (
     <button type="button" className="icon-button icon-button--bare mode-toggle" aria-label={mode === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'} onClick={toggleMode}>
@@ -68,7 +70,7 @@ export default function TopBar({ context, variant = 'default' }) {
   if (isHome) {
     return (
       <header className="top-bar top-bar--home">
-        <button type="button" className="icon-button icon-button--bare" aria-label="Abrir menú" onClick={menuHandler}><Icon name="menu" /></button>
+        <button type="button" className="top-bar__brand" aria-label="FoxMind: abrir menú" onClick={menuHandler}><LogoMark /></button>
         <div className="top-bar__actions">
           <button type="button" className="icon-button icon-button--bare" aria-label="Buscar o capturar (Ctrl + K)" onClick={() => setIsPaletteOpen(true)}><Icon name="search" /></button>
           {modeButton}

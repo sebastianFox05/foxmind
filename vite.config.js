@@ -24,7 +24,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: false,
-      includeAssets: ['icon.svg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'manifest.webmanifest'],
+      includeAssets: ['favicon-48.png', 'logo-foxmind.png', 'logo-foxmind-crema.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'manifest.webmanifest'],
       workbox: {
         navigateFallback: null,
         globPatterns: ['**/*.{js,css,svg,png,webmanifest}'],

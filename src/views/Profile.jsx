@@ -8,6 +8,7 @@ import { useUi } from '../ui/UiContext.jsx';
 import { useActions } from '../ui/useActions.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 import Icon from '../components/Icon.jsx';
+import Logo from '../components/Logo.jsx';
 import { addDays, formatDay, isoWeekNumber, startOfWeek, todayISO } from '../lib/dates.js';
 import { habitStreak, weekSummary } from '../lib/stats.js';
 import { downloadFile, formatNumber, uid } from '../lib/utils.js';
@@ -187,6 +188,7 @@ function DataSection() {
 
 export default function Profile() {
   const { db, settings } = useData();
+  const { mode } = useUi();
   const actions = useActions();
   const today = todayISO();
   return (
@@ -245,6 +247,11 @@ export default function Profile() {
             {[...MONTH_PHOTOS, ...Object.values(HERO_PHOTOS)].map((photo) => <li key={photo.src}>{photo.alt} — {photo.author} ({photo.license})</li>)}
           </ul>
         </section>
+
+        <footer className="profile-brand">
+          <Logo isOnDark={mode === 'dark'} className="profile-brand__logo" />
+          <p className="form__hint">Tu sistema personal · trabajo, entreno, lectura y retos</p>
+        </footer>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
  * puntos de progreso y boton coral. Tres diapositivas que se deslizan; se muestra solo la primera vez.
  */
 import { useRef, useState } from 'react';
+import Logo from '../components/Logo.jsx';
 import Photo from '../components/Photo.jsx';
 import { HERO_PHOTOS, MONTH_PHOTOS } from '../lib/photos.js';
 
@@ -32,6 +33,7 @@ export default function Welcome({ onStart, onLogin }) {
   return (
     <main className="welcome">
       <h1 className="visually-hidden">Bienvenido a FoxMind</h1>
+      <Logo isOnDark className="welcome__logo" alt="" />
       <div className="welcome__track" ref={trackRef} onScroll={scrollHandler}>
         {SLIDES.map((slide, position) => (
           <section key={slide.place} className="welcome__slide" aria-label={`${position + 1} de ${SLIDES.length}`} aria-hidden={position !== index}>

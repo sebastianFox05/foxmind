@@ -1467,7 +1467,6 @@ input[type='date'].field__input { color-scheme: dark; }
 .auth__cover { position: relative; margin: 0; height: 38vh; min-height: 220px; overflow: hidden; }
 .auth__photo, .auth__photo .photo__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .auth__cover::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, #0d0b0a); }
-.auth__place { top: auto; bottom: 46px; }
 .auth__sheet { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 16px; width: min(480px, 100%); margin: -28px auto 0; padding: 26px 24px calc(32px + env(safe-area-inset-bottom)); border-radius: 30px 30px 0 0; background: #0d0b0a; color: #fff; }
 .auth__switch { display: flex; gap: 4px; align-self: flex-start; padding: 4px; border-radius: 16px; background: rgba(255, 255, 255, 0.08); }
 .auth__tab { min-height: 40px; padding: 0 18px; border: 0; border-radius: 12px; background: transparent; color: rgba(255, 255, 255, 0.65); font-weight: 600; }
@@ -2478,7 +2477,6 @@ body:has(.app--ritual-light) { background: #fbf3f4; }
   .auth { flex-direction: row; }
   .auth__cover { flex: 1 1 55%; height: auto; min-height: 100vh; position: sticky; top: 0; }
   .auth__cover::after { background: linear-gradient(90deg, transparent 55%, #0d0b0a); }
-  .auth__place { left: 48px; bottom: 48px; }
   .auth__sheet { flex: 0 0 min(520px, 45%); justify-content: center; margin: 0; padding: 56px 48px; border-radius: 0; }
 }
 
@@ -2488,4 +2486,42 @@ body:has(.app--ritual-light) { background: #fbf3f4; }
   .workout-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .period-stack { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .note-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* =========================================================================
+   25. Marca FoxMind
+   Logotipo (reloj de arena + FOX MIND) en bienvenida, acceso, menu, barra lateral y Perfil;
+   icono "FM" en la cabecera de Hoy, la carga y la tarjeta de instalar.
+   ========================================================================= */
+.logo { display: block; max-width: 100%; height: auto; }
+.logo-mark { display: block; border-radius: 22%; }
+
+.welcome__logo,
+.auth__logo { position: absolute; z-index: 2; pointer-events: none; filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.5)); }
+.welcome__logo { top: max(16px, env(safe-area-inset-top)); left: 20px; width: 116px; }
+.auth__logo { left: 24px; bottom: 44px; width: 136px; }
+
+.top-bar__brand { flex: none; width: 50px; height: 50px; padding: 0; border: 0; border-radius: 16px; background: none; cursor: pointer; box-shadow: 0 6px 16px rgba(123, 8, 8, 0.22); transition: transform 0.15s ease; }
+.top-bar__brand:hover { transform: translateY(-1px); }
+.top-bar__brand .logo-mark { width: 100%; height: 100%; border-radius: inherit; }
+
+.menu-list__logo { width: 128px; margin: 0 auto 14px; }
+
+.loading { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.loading__mark { width: 56px; height: 56px; box-shadow: 0 8px 22px rgba(123, 8, 8, 0.25); animation: logo-pulse 1.6s ease-in-out infinite; }
+@keyframes logo-pulse { 50% { transform: scale(0.94); opacity: 0.75; } }
+
+.profile-brand { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px 0 4px; text-align: center; }
+.profile-brand__logo { width: 150px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .loading__mark { animation: none; }
+  .top-bar__brand { transition: none; }
+}
+
+@media (min-width: 1024px) {
+  .app .bottom-nav__brand { justify-content: center; padding: 4px 8px 6px; }
+  .app .bottom-nav__brand .logo { width: 150px; height: auto; border-radius: 0; }
+  .welcome__logo { top: 28px; left: 8vw; width: 150px; }
+  .auth__logo { left: 48px; bottom: 48px; width: 210px; }
 }

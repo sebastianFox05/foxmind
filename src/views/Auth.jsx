@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { useData } from '../session/DataContext.jsx';
 import Icon from '../components/Icon.jsx';
+import Logo from '../components/Logo.jsx';
 import Photo from '../components/Photo.jsx';
 import { MONTH_PHOTOS } from '../lib/photos.js';
 
@@ -67,7 +68,7 @@ export default function Auth({ initialMode = 'login' }) {
     <main className="auth">
       <figure className="auth__cover">
         <Photo photo={MONTH_PHOTOS[2]} className="auth__photo" isEager isDecorative />
-        <span className="welcome__place auth__place"><span className="welcome__pin" aria-hidden="true" />FoxMind</span>
+        <Logo isOnDark className="auth__logo" />
       </figure>
 
       <section className="auth__sheet" aria-labelledby="auth-title">

@@ -6,7 +6,7 @@
  */
 import { NavLink } from 'react-router-dom';
 import Icon from './Icon.jsx';
-import { asset } from '../lib/utils.js';
+import Logo from './Logo.jsx';
 import { useUi } from '../ui/UiContext.jsx';
 
 const LEFT = [
@@ -33,12 +33,11 @@ function NavItem({ item, className = '' }) {
 }
 
 export default function BottomNav() {
-  const { setIsPaletteOpen } = useUi();
+  const { setIsPaletteOpen, mode } = useUi();
   return (
     <nav className="bottom-nav" aria-label="Secciones">
-      <a className="bottom-nav__brand" href="#/">
-        <img src={asset('icon-192.png')} alt="" width="192" height="192" />
-        <span>FoxMind</span>
+      <a className="bottom-nav__brand" href="#/" aria-label="FoxMind: ir a Hoy">
+        <Logo isOnDark={mode === 'dark'} alt="" />
       </a>
       <ul className="bottom-nav__list">
         {LEFT.map((item) => <NavItem key={item.to} item={item} />)}
