@@ -65,8 +65,8 @@ Pasos generales si algún día lo montas en otro proyecto:
 
 Publicado en **https://foxmind.netlify.app** (sitio `foxmind`, id 80402d39-2751-4cb3-af07-df163d286d23).
 `netlify.toml` ya tiene la compilación (`npm ci && npm run build` → `dist`) y la Content-Security-Policy.
-Para publicar se pide a Claude (operación `deploy-site` del conector de Netlify) y se ejecuta el comando `npx @netlify/mcp …`
-que devuelve, desde esta carpeta. Después, añade `https://foxmind.netlify.app` a las Redirect URLs de Supabase.
+El sitio está conectado al repositorio de GitHub: **cada push a `main` se compila y publica solo** en Netlify
+(y en GitHub Pages). Añade `https://foxmind.netlify.app` a las Redirect URLs de Supabase.
 
 ## GitHub Pages
 
